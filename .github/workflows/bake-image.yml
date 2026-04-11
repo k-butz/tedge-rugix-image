@@ -49,6 +49,8 @@ jobs:
       fail-fast: false
       matrix:
         job:
+          - { system: tedge-debian-13-efi-arm64, runner: ubuntu-24.04-arm }
+          - { system: tedge-debian-13-efi-amd64, runner: ubuntu-latest }
           - { system: tedge-debian-12-efi-arm64, runner: ubuntu-24.04-arm }
           - { system: tedge-debian-12-efi-amd64, runner: ubuntu-latest }
           - { system: tedge-raspios-arm64-tryboot-pi4, runner: ubuntu-24.04-arm }
