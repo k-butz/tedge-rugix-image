@@ -1,3 +1,4 @@
+#:schema https://raw.githubusercontent.com/rugix/rugix-bakery/refs/tags/v0.9.0/schemas/rugix-bakery-recipe.schema.json
 description = "thin-edge.io custom configuration"
 priority = 10_000
 # Thin-edge should be set up by the parent layer.

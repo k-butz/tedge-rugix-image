@@ -1,10 +1,10 @@
 # thin-edge.io image using Rugix
 
-The repository can be used to build custom device images with thin-edge.io and [Rugix](https://oss.silitics.com/rugix/) for robust Over-The-Air (OTA) Operating System updates.
+The repository can be used to build custom device images with thin-edge.io and [Rugix](https://rugix.org/) for robust Over-The-Air (OTA) Operating System updates.
 
 ## Compatible devices
 
-Rugix can support building images for other devices than just Raspberry Pi's, however the thin-edge.io integration is currently only tested for Raspberry Pi devices. Please reach out for support if you are looking into integrating with other devices, or contact [Silitics](https://oss.silitics.com/rugix/commercial-support), the authors of Rugix.
+Rugix can support building images for other devices than just Raspberry Pi's, however the thin-edge.io integration is currently only tested for Raspberry Pi devices. Please reach out for support if you are looking into integrating with other devices, or contact [Silitics](https://rugix.org/commercial-support), the authors of Rugix.
 
 **Using u-boot**
 
@@ -89,7 +89,7 @@ To run the build tasks, install [just](https://just.systems/man/en/chapter_5.htm
 
     **Note:** A Rugix update bundle will have the `.rugixb` suffix in its filename
 
-For further information on Rugix, checkout the [quick start guide](https://oss.silitics.com/rugix/docs/getting-started).
+For further information on Rugix, checkout the [quick start guide](https://rugix.org/docs/getting-started).
 
 
 ### Building images/bundles including thin-edge.io main
