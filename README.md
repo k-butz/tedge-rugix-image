@@ -36,9 +36,32 @@ The following system images are included in this repository.
 
 ## Building
 
-### Building an image
+### Prerequisites
 
 To run the build tasks, install [just](https://just.systems/man/en/chapter_5.html).
+
+Rugix Bakery 0.9 uses rootless Podman by default to build images. Podman must be installed and running before building.
+
+**macOS** — install Podman via Homebrew and initialize a machine:
+
+```sh
+brew install podman
+podman machine init
+# increase the default memory to >= 4GB
+podman machine set --memory 4096
+podman machine start
+```
+
+**Linux** — install Podman via your package manager (e.g. `apt install podman`). Rootless Podman should work out of the box on most distributions without any machine setup.
+
+> **Note:** After upgrading from Rugix v0.8, delete the `.rugix` and `build` directories so they are recreated with the correct ownership for rootless Podman:
+> ```sh
+> rm -rf .rugix build
+> ```
+
+### Building an image
+
+
 
 1. Clone the repository
 
@@ -156,6 +179,22 @@ just SYSTEM=tedge-raspios-armhf build-image
 ```sh
 just SYSTEM=tedge-raspios-arm64 build-image
 ```
+
+### Local VM Development
+
+Rugix supports running an image in a VM to facilitate local development without a physical device.
+
+1. Start the VM (this will build the system image if necessary):
+
+    ```sh
+    just start-vm
+    ```
+
+2. Open a new console (leaving the previous one running) and connect to the VM:
+
+    ```sh
+    just connect-vm
+    ```
 
 ## Project Tasks
 

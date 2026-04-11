@@ -1,0 +1,22 @@
+#:schema https://raw.githubusercontent.com/rugix/rugix-bakery/refs/tags/v0.9.0/schemas/rugix-bakery-layer.schema.json
+parent = "tedge-rugix-core/debian-13"
+
+recipes = [
+    # default tedge packages
+    "tedge-rugix-core/defaults",
+
+    # containers
+    "tedge-rugix-core/docker",
+
+    # Setup the network
+    "tedge-rugix-core/setup-network",
+
+    # PKCS11 tools
+    "tedge-rugix-core/setup-pkcs11",
+
+    # SBOM
+    "rugix-extra/simple-sbom",
+
+    "tedge-config",
+    "user-packages",
+]

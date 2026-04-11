@@ -12,7 +12,9 @@ recipes = [
     "tedge-rugix-core/avahi-daemon",
 
     # containers
-    "tedge-rugix-core/docker",
+    # use podman as docker has deprecated support for Raspberry OS and 
+    # armhf (armv6) images, see https://docs.docker.com/engine/install/raspberry-pi-os/
+    "tedge-rugix-core/podman",
 
     # Include u-boot setup on all image
     # to avoid having to create a layer per-bootloader
