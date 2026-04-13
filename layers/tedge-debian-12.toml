@@ -17,6 +17,5 @@ recipes = [
     # SBOM
     "rugix-extra/simple-sbom",
 
-    "tedge-config",
     "user-packages",
 ]

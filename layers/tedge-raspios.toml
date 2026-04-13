@@ -19,10 +19,5 @@ recipes = [
     # SBOM
     "rugix-extra/simple-sbom",
 
-    "tedge-config",
     "user-packages",
 ]
-
-[parameters."tedge-config"]
-# Allow containers to reach the MQTT broker on the host
-mqtt_bind_address = "0.0.0.0"

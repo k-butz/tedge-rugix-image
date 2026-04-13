@@ -7,10 +7,6 @@ recipes = [
     "tedge-rugix-core/raspi-tpm",
     "tedge-rugix-core/setup-pkcs11",
 
-    # use avahi instead of systemd-resolved due to
-    # an issue with high cpu usage
-    "tedge-rugix-core/avahi-daemon",
-
     # containers
     # use podman as docker has deprecated support for Raspberry OS and 
     # armhf (armv6) images, see https://docs.docker.com/engine/install/raspberry-pi-os/
@@ -25,17 +21,5 @@ recipes = [
     # SBOM
     "rugix-extra/simple-sbom",
 
-    "tedge-config",
     "user-packages",
 ]
-
-# exclude specific recipes which are currently not supported on older versions
-# due to various issues
-exclude = [
-    # high cpu usage on rpi1
-    "tedge-rugix-core/systemd-resolved",
-]
-
-[parameters."tedge-config"]
-# Allow containers to reach the MQTT broker on the host
-mqtt_bind_address = "0.0.0.0"
