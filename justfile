@@ -33,6 +33,7 @@ generate_version:
 prepare:
     #!/usr/bin/env bash
     if [ ! -f tests/id_rsa ]; then
+         mkdir -p tests
         ssh-keygen -t rsa -b 4096 -f tests/id_rsa -q -N ""
     fi
 
@@ -62,6 +63,11 @@ build-image: build-setup
         --release-id "{{RELEASE_ID}}" \
         --release-version "{{VERSION}}" \
         {{SYSTEM}}
+    
+    echo "Created the image successfully"
+    echo
+    echo "  build/{{SYSTEM}}/system.img"
+    echo
 
 # Build bundle (uncompressed)
 build-bundle-uncompressed OUTPUT="system.rugixb": build-setup
@@ -71,6 +77,11 @@ build-bundle-uncompressed OUTPUT="system.rugixb": build-setup
         --without-compression \
         {{SYSTEM}} \
         build/{{SYSTEM}}/{{OUTPUT}}
+
+    echo "Created the (uncompressed) bundle successfully"
+    echo
+    echo "  build/{{SYSTEM}}/{{OUTPUT}}"
+    echo
 
 # Build build (compressed)
 build-bundle OUTPUT="system.rugixb": build-setup
@@ -107,3 +118,26 @@ generate:
         echo "$name type='image':" >> systems.just
         echo "    just SYSTEM=$name build-{{{{type}}" >> systems.just
     done
+
+#
+# Publishing
+#
+# Publish latest image to Cumulocity
+publish:
+    cd {{justfile_directory()}} && ./scripts/upload-c8y.sh
+
+# Publish a given github release to Cumulocity (using external urls)
+publish-external tag *args="":
+    cd {{justfile_directory()}} && ./scripts/c8y-publish-release.sh {{tag}} {{args}}
+
+# Publish a given github release to Cumulocity (using external urls) but convert an existing draft to a prerelease beforehand
+publish-external-prerelease tag:
+    cd {{justfile_directory()}} && ./scripts/c8y-publish-release.sh {{tag}} --pre-release
+
+# Trigger a release (by creating a tag)
+release:
+    git tag -a "{{VERSION}}" -m "{{VERSION}}"
+    git push origin "{{VERSION}}"
+    @echo
+    @echo "Created release (tag): {{VERSION}}"
+    @echo
