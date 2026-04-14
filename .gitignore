@@ -6,6 +6,7 @@ build.log
 *.sbom.txt
 *.log
 *.env
+wordlist.txt
 
 # test keys
 id_rsa

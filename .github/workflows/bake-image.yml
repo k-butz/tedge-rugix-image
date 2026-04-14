@@ -5,7 +5,6 @@ on:
   pull_request:
   workflow_dispatch:
   push:
-    branches: [feat-rugix]
     tags:
       - "*"
 
@@ -17,7 +16,7 @@ jobs:
       version: ${{ steps.info.outputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - uses: taiki-e/install-action@just
@@ -43,22 +42,29 @@ jobs:
     env:
       IMAGE_NAME: ${{ matrix.job.system }}_${{ needs.info.outputs.version }}
       VERSION: ${{needs.info.outputs.version}}
+      DOCKER: ${{ matrix.job.engine || 'podman' }}
+      SUDO: ${{ matrix.job.sudo || '' }}
     strategy:
       fail-fast: false
       matrix:
         job:
+          - { system: tedge-debian-13-efi-arm64, runner: ubuntu-24.04-arm }
+          - { system: tedge-debian-13-efi-amd64, runner: ubuntu-latest }
           - { system: tedge-debian-12-efi-arm64, runner: ubuntu-24.04-arm }
           - { system: tedge-debian-12-efi-amd64, runner: ubuntu-latest }
           - { system: tedge-raspios-arm64-tryboot-pi4, runner: ubuntu-24.04-arm }
           - { system: tedge-raspios-arm64-tryboot, runner: ubuntu-24.04-arm }
           - { system: tedge-raspios-arm64, runner: ubuntu-24.04-arm }
-          - { system: tedge-raspios-armhf, runner: ubuntu-latest }
+          - { system: tedge-raspios-armhf, runner: ubuntu-latest, engine: docker, sudo: 'sudo' }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
 
       - uses: taiki-e/install-action@just
+
+      - name: Set up QEMU (binfmt)
+        uses: docker/setup-qemu-action@v4
 
       - name: Configure .env
         env:
@@ -78,13 +84,13 @@ jobs:
 
       - name: Rename artifacts
         run: |
-          sudo cp build/${{ matrix.job.system }}/system.img build/${{ matrix.job.system }}/${{ env.IMAGE_NAME }}.img
-          sudo cp build/${{ matrix.job.system }}/artifacts/sbom.txt build/${{ matrix.job.system }}/artifacts/${{ env.IMAGE_NAME }}.sbom.txt
+          $SUDO cp build/${{ matrix.job.system }}/system.img build/${{ matrix.job.system }}/${{ env.IMAGE_NAME }}.img
+          $SUDO cp build/${{ matrix.job.system }}/artifacts/sbom.txt build/${{ matrix.job.system }}/artifacts/${{ env.IMAGE_NAME }}.sbom.txt
           ls -l build/${{ matrix.job.system }}/
           ls -l build/${{ matrix.job.system }}/artifacts/
 
       - name: Upload SBOM
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.IMAGE_NAME }}.sbom.txt
           if-no-files-found: error
@@ -93,10 +99,10 @@ jobs:
 
       - name: Compress Image (xz)
         run: |
-          sudo xz -v "build/${{ matrix.job.system }}/${{ env.IMAGE_NAME }}.img"
+          $SUDO xz -v "build/${{ matrix.job.system }}/${{ env.IMAGE_NAME }}.img"
       
       - name: Upload Image
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         id: image-upload-step
         with:
           name: ${{ env.IMAGE_NAME }}.img.xz
@@ -110,7 +116,7 @@ jobs:
           just SYSTEM=${{ matrix.job.system }} build-bundle ${{ env.IMAGE_NAME }}.rugixb
 
       - name: Upload Update Bundle
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         id: bundle-upload-step
         with:
           name: ${{ env.IMAGE_NAME }}.rugixb
@@ -171,8 +177,8 @@ jobs:
       - bake-image
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+        uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
         with:
           path: release
       - name: Show release artifacts

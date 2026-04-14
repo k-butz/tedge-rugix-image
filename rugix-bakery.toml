@@ -1,8 +1,17 @@
-#:schema https://raw.githubusercontent.com/silitics/rugix/refs/tags/v0.8.0/schemas/rugix-bakery-project.schema.json
+#:schema https://raw.githubusercontent.com/rugix/rugix-bakery/refs/tags/v0.9.0/schemas/rugix-bakery-project.schema.json
 [repositories]
-rugix-extra = { git = "https://github.com/silitics/rugix-extra", branch = "main" }
-tedge-rugix-core = { git = "https://github.com/thin-edge/tedge-rugix-core.git", branch = "v0.8-rugix" }
+rugix-extra = { git = "https://github.com/rugix/rugix-extra", branch = "main" }
+tedge-rugix-core = { git = "https://github.com/thin-edge/tedge-rugix-core.git", branch = "v0.9" }
 
+[systems.tedge-debian-13-efi-arm64]
+layer = "tedge-debian-13-efi"
+architecture = "arm64"
+target = "generic-grub-efi"
+
+[systems.tedge-debian-13-efi-amd64]
+layer = "tedge-debian-13-efi"
+architecture = "amd64"
+target = "generic-grub-efi"
 
 [systems.tedge-debian-12-efi-arm64]
 layer = "tedge-debian-12-efi"

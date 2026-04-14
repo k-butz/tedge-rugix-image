@@ -1,4 +1,4 @@
-#:schema https://raw.githubusercontent.com/silitics/rugix/refs/tags/v0.8.0/schemas/rugix-bakery-layer.schema.json
+#:schema https://raw.githubusercontent.com/rugix/rugix-bakery/refs/tags/v0.9.0/schemas/rugix-bakery-layer.schema.json
 parent = "tedge-rugix-core/raspios"
 
 recipes = [
@@ -19,10 +19,5 @@ recipes = [
     # SBOM
     "rugix-extra/simple-sbom",
 
-    "tedge-config",
     "user-packages",
 ]
-
-[parameters."tedge-config"]
-# Allow containers to reach the MQTT broker on the host
-mqtt_bind_address = "0.0.0.0"

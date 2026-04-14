@@ -1,7 +1,0 @@
-description = "thin-edge.io custom configuration"
-priority = 10_000
-# Thin-edge should be set up by the parent layer.
-dependencies = []
-
-[parameters]
-mqtt_bind_address = { default = "" }

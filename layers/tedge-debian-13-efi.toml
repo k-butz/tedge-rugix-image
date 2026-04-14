@@ -1,5 +1,5 @@
 #:schema https://raw.githubusercontent.com/rugix/rugix-bakery/refs/tags/v0.9.0/schemas/rugix-bakery-layer.schema.json
-parent = "tedge-debian-12"
+parent = "tedge-debian-13"
 
 recipes = [
     # Setup Debian for booting via Grub.
